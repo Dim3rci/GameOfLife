@@ -40,12 +40,9 @@ int main() {
         return Status::SUCCESS;
     } else if (mode == 2) {
         Board board;
-        Display display;
-        GameLoop gameLoop(board, GameRules());
+        GameLoop gameLoop(board, GameRules(), Display());
         board.fillRandomly(0.3);
-        display.render(board);
-        gameLoop.nextGeneration();
-        display.render(board);
+        gameLoop.loop();
     }
     return Status::SUCCESS;
 }

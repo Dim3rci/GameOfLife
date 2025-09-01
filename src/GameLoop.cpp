@@ -1,4 +1,9 @@
+#include <iostream>
+#include <thread>
+#include <chrono>
+
 #include "GameLoop.hpp"
+
 
 std::vector<std::vector<bool>> GameLoop::fillNewGeneration(std::vector<std::vector<bool>>& nextEstate) const {
     std::pair<int, int> size = board.getGridSize();
@@ -18,4 +23,17 @@ void GameLoop::nextGeneration() {
     
     // Update the board with the next generation state
     board.updateBoard(fillNewGeneration(nextState));
+}
+
+void GameLoop::loop() {
+    int generation = 0;
+
+    while (1) {
+        nextGeneration();
+        generation++;
+        std::cout << "Generation: " << generation << std::endl;
+        display.render(board);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+    
 }
