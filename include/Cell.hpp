@@ -1,10 +1,10 @@
-#pragma
+#pragma once
 
 class Cell {
     public:
-        Cell(bool alive) : isAlive(alive) {};
+        Cell(bool alive = false) : isAlive(alive) {};
 
-        bool getStatus();
+        bool getStatus() const ;
         void setStatus(bool alive);
 
     private:

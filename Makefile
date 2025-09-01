@@ -7,7 +7,7 @@ CXXFLAGS := -std=c++17 -Wall -Wextra -Iinclude
 LDFLAGS := -static-libgcc -static-libstdc++
 
 # Project name
-TARGET := sudoku_solver
+TARGET := game_of_life
 
 # Directories
 SRCDIR := src

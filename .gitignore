@@ -2,3 +2,5 @@
 /.vscode
 *.exe
 /docs
+/obj
+/-p

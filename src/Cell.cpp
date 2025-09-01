@@ -7,7 +7,7 @@
  * @return false Dead
  */
 
-bool Cell::getStatus() {
+bool Cell::getStatus() const {
     return isAlive;
 }
 
