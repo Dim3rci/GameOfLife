@@ -27,4 +27,4 @@ void Display::render(Board& board) {
             std::cout << std::endl;
         }
     });
-}
+}   

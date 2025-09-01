@@ -4,6 +4,7 @@
 // #include "Board.hpp"
 #include "Utils.hpp"
 #include "Display.hpp"
+#include "GameLoop.hpp"
 
 
 /**
@@ -39,9 +40,12 @@ int main() {
         return Status::SUCCESS;
     } else if (mode == 2) {
         Board board;
-        Display test;
-        test.render(board);
-        
+        Display display;
+        GameLoop gameLoop(board, GameRules());
+        board.fillRandomly(0.3);
+        display.render(board);
+        gameLoop.nextGeneration();
+        display.render(board);
     }
     return Status::SUCCESS;
 }

@@ -37,15 +37,15 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
-# Run the program
-run: $(TARGET)
-	@./$(TARGET)
-
 # Clean build files
 clean:
 	@echo "Cleaning..."
 	@rm -rf $(OBJDIR) $(TARGET)
 	@echo "Clean completed!"
+
+# Run the program
+run: clean $(TARGET)
+	@./$(TARGET)
 
 # Debug build
 debug: CXXFLAGS += -g -DDEBUG
