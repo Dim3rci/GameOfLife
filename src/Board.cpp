@@ -1,16 +1,20 @@
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <stdexcept>
+#include <string>
+#include <iostream>
 
 #include "Board.hpp"
 
 /**
  * @brief Return dimension of the grid
- * getGridSize.first = width
+ * getGridSize.first = height
  * getGridSize.second = length
  * @return std::pair<int, int> 
  */
 std::pair<int, int> Board::getGridSize() const {
-    return {this->width, this->length};
+    return {this->height, this->length};
 }
 
 /**
@@ -26,10 +30,10 @@ std::pair<int, int> Board::getGridSize() const {
  * @note The x-coordinate is not passed to the callback. If you need both
  *       x and y coordinates, consider modifying the callback signature.
  *
- * @warning The iteration order is from x = 0 to width-1 and y = 0 to length-1.
+ * @warning The iteration order is from x = 0 to height-1 and y = 0 to length-1.
  */
 void Board::forEachCell(std::function<void(int, bool)> callback) const {
-    for (int x = 0; x < width; ++x) {
+    for (int x = 0; x < height; ++x) {
         for (int y = 0; y < length; ++y) {
             callback(y, grid[x][y].getStatus());
         }
@@ -39,11 +43,34 @@ void Board::forEachCell(std::function<void(int, bool)> callback) const {
 void Board::fillRandomly(float aliveProbability) {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-    for (int x = 0; x < width; ++x) {
+    for (int x = 0; x < height; ++x) {
         for (int y = 0; y < length; ++y) {
             float randValue = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
             grid[x][y].setStatus(randValue < aliveProbability);
         }
+    }
+}
+
+void Board::fillFromFile(const std::string& filename, char alive, char dead) {
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+        throw std::runtime_error("Could not open file: " + filename);
+    }
+
+    std::string line;
+    int x = 0;
+    
+    std::cout << "Length : " << length << " height : " << height << std::endl;
+    while (std::getline(file, line) && x < height) {
+        for (int y = 0; y < static_cast<int>(line.size()) && y < length; ++y) {
+            if (line[y] == alive) {
+                grid[x][y].setStatus(true);
+            } else if (line[y] == dead) {
+                grid[x][y].setStatus(false);
+            }
+        }
+        ++x;
     }
 }
 
@@ -55,7 +82,7 @@ int Board::countAliveNeighbors(int x, int y) const {
             if (deltaX == 0 && deltaY == 0) continue; // Skip the cell itself
             int neighborX = x + deltaX;
             int neighborY = y + deltaY;
-            if (neighborX >= 0 && neighborX < width && neighborY >= 0 && neighborY < length) {
+            if (neighborX >= 0 && neighborX < height && neighborY >= 0 && neighborY < length) {
                 if (grid[neighborX][neighborY].getStatus()) {
                     ++aliveCount;
                 }
@@ -66,22 +93,28 @@ int Board::countAliveNeighbors(int x, int y) const {
 }
 
 bool Board::isCellAlive(int x, int y) const {
-    if (x >= 0 && x < width && y >= 0 && y < length) {
+    if (x >= 0 && x < height && y >= 0 && y < length) {
         return grid[x][y].getStatus();
     }
     return false;
 }
 
 void Board::setCellStatus(int x, int y, bool isAlive) {
-    if (x >= 0 && x < width && y >= 0 && y < length) {
+    if (x >= 0 && x < height && y >= 0 && y < length) {
         grid[x][y].setStatus(isAlive);
     }
 }
 
 void Board::updateBoard(const std::vector<std::vector<bool>>& nextState) {
-    for (int x = 0; x < this->width; ++x) {
+    for (int x = 0; x < this->height; ++x) {
         for (int y = 0; y < this->length; ++y) {
             setCellStatus(x, y, nextState[x][y]);
         }
     }
+}
+
+void Board::resize(int newheight, int newLength) {
+    height = newheight;
+    length = newLength;
+    grid = std::vector<std::vector<Cell>>(height, std::vector<Cell>(length));
 }

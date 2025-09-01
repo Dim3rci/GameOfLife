@@ -1,4 +1,5 @@
 #include "GameRules.hpp"
+#include <iostream>
 
 bool GameRules::shouldCellLive(bool isCurrentlyAlive, int aliveNeighbors) const {
     if (isCurrentlyAlive) {

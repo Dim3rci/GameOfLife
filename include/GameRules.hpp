@@ -4,7 +4,7 @@
 
 class GameRules {
     public:
-        GameRules(int birthMin = 3, int birthMax = 3, int surviveMin = 3, int surviveMax = 3)
+        GameRules(int birthMin = 3, int birthMax = 3, int surviveMin = 2, int surviveMax = 3)
             : birthMin(birthMin), birthMax(birthMax), surviveMin(surviveMin), surviveMax(surviveMax) {}
 
         bool shouldCellLive(bool isCurrentlyAlive, int aliveNeighbors) const;
