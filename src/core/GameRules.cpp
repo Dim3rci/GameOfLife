@@ -1,5 +1,6 @@
-#include "GameRules.hpp"
 #include <iostream>
+
+#include "core/GameRules.hpp"
 
 /**
  * @brief Determine if a cell should be alive in the next generation.

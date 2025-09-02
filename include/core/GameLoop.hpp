@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Board.hpp"
-#include "GameRules.hpp"
-#include "Display.hpp"
+#include "core/Board.hpp"
+#include "core/GameRules.hpp"
+#include "ui/Display.hpp"
 
 /**
  * @class GameLoop

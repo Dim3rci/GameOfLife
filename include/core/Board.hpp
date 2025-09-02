@@ -4,7 +4,7 @@
 #include <functional>
 #include <string>
 
-#include "Cell.hpp"
+#include "core/Cell.hpp"
 
 /**
  * @brief Represents the game board for Game of Life.

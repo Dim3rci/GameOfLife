@@ -2,6 +2,7 @@
 
 #include <utility>
 #include <string>
+#include <streambuf>
 
 /**
  * @enum Status
@@ -52,4 +53,5 @@ class Utils {
          * @return A pair containing the number of rows and columns.
          */
         static std::pair<int, int> getFileDimensions(const std::string& filename);
+        int readInt(const std::string& prompt, int min, int max);
 };

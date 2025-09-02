@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 
-#include "Board.hpp"
+#include "core/Board.hpp"
 
 /**
  * @brief Return dimension of the grid

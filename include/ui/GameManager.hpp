@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Board.hpp"
+#include "core/Board.hpp"
+#include "utils/Utils.hpp"
 
 /**
  * @brief Manages the main game logic and user interaction.
@@ -8,12 +9,15 @@
 class GameManager {
 
     public:
+        GameManager(Utils utils) : utils(std::move(utils)) {}
         /**
          * @brief Runs the main menu and starts the selected game mode.
          */
         void run();
-
+        
+        
     private:
+        Utils utils;
         /**
          * @brief Launches the main game loop with the given board.
          * @param board The board to use for the game loop.

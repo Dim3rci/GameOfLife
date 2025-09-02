@@ -3,7 +3,7 @@
 #include <chrono>
 #include <conio.h> // For _kbhit() and _getch()
 
-#include "GameLoop.hpp"
+#include "core/GameLoop.hpp"
 
 /**
  * @brief Fill the next generation state for the board.

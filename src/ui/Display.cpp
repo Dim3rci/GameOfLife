@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Display.hpp"
+#include "ui/Display.hpp"
 
 /**
  * @brief Renders the current state of the board to the standard output.

@@ -1,13 +1,14 @@
 #include <iostream>
 #include <limits>
 
-#include "Utils.hpp"
-#include "Display.hpp"
-#include "GameLoop.hpp"
-#include "GameManager.hpp"
+#include "utils/Utils.hpp"
+#include "ui/Display.hpp"
+#include "core/GameLoop.hpp"
+#include "ui/GameManager.hpp"
 
 int main() {
-    GameManager manager;
+    Utils util;
+    GameManager manager(util);
     manager.run();
     return Status::SUCCESS;
 }

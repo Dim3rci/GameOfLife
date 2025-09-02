@@ -1,8 +1,10 @@
-#include "Utils.hpp"
-
 #include <fstream>
 #include <string>
 #include <utility>
+#include <iostream>
+#include <limits>
+
+#include "utils/Utils.hpp"
 
 /**
  * @brief Get the dimensions of a file representing a grid.
@@ -15,7 +17,7 @@
 std::pair<int, int> Utils::getFileDimensions(const std::string& filename) {
      std::ifstream file(filename);
     if (!file.is_open()) {
-        return {0, 0}; // Ou gérer l'erreur autrement
+        return {0, 0};
     }
 
     int maxWidth = 0;
@@ -28,4 +30,19 @@ std::pair<int, int> Utils::getFileDimensions(const std::string& filename) {
         ++height;
     }
     return {maxWidth, height};
+}
+
+int Utils::readInt(const std::string& prompt, int min, int max) {
+    int value;
+
+    while (true) {
+        std::cout << prompt;
+        if (std::cin >> value && value >= min && value <= max) {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return value;
+        }
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Invalid input! Please enter a number between " << min << " and " << max << ".\n";
+    }
 }

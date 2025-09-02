@@ -1,9 +1,10 @@
-#include "GameManager.hpp"
 #include <iostream>
 #include <limits>
-#include "Utils.hpp"
-#include "Display.hpp"
-#include "GameLoop.hpp"
+
+#include "core/GameLoop.hpp"
+#include "utils/Utils.hpp"
+#include "ui/GameManager.hpp"
+#include "ui/Display.hpp"
 
 /**
  * @brief Launches the main game loop with the given board.
@@ -45,12 +46,8 @@ void GameManager::choosePattern() {
         "pattern/toad"
     };
     displayAvailablePatterns();
-    int patternChoice = -1;
-    while (!(std::cin >> patternChoice) || patternChoice < 0 || patternChoice > 9) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "Invalid input! Please enter a number between 0 and 9.\n";
-    }
+    int patternChoice = this->utils.readInt("Enter your choice (0-9): ", 0, 9);
+
     if (patternChoice == 0) {
         std::cout << "Exiting pattern selection.\n";
         return;
@@ -75,18 +72,12 @@ int GameManager::getMode(int option) {
         "1. Default option\n2. Custom option\n0. Exit\n",
         "Default mode selected.\nHow do you want to select the alive cells?\n1. Manually\n2. Choose a predefined pattern\n0. Exit\n"
     };
-    int mode;
     if (option >= 0 && option <= 2) {
         std::cout << menuMessages[option];
     } else {
         std::cout << "Invalid option.\n";
     }
-    while (!(std::cin >> mode) || (mode != 0 && mode != 1 && mode != 2)) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "Invalid input! Please enter a number.\n";
-    }
-    return mode;
+    return this->utils.readInt("Enter your choice: ", 0, 2);
 }
 
 /**
@@ -110,8 +101,12 @@ void GameManager::manualMode() {
  * @brief Handles random mode selection and launches the game loop with a random board.
  */
 void GameManager::randomMode() {
-    Board board;
-    board.fillRandomly(0.3);
+    int height = this->utils.readInt("Enter board height (positive integer): ", 0, 100);
+    int length = this->utils.readInt("Enter board length (positive integer): ", 0, 100);
+    constexpr double aliveProbability = 0.3;
+    Board board(height, length);
+
+    board.fillRandomly(aliveProbability);
     launchLoop(board);
 }
 
