@@ -6,7 +6,6 @@
  * @return true Alive
  * @return false Dead
  */
-
 bool Cell::getStatus() const {
     return isAlive;
 }
@@ -18,7 +17,6 @@ bool Cell::getStatus() const {
  * 
  * @param alive 
  */
-
 void Cell::setStatus(bool alive) {
     this->isAlive = alive;
 }
