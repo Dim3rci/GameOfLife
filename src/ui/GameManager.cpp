@@ -76,6 +76,10 @@ int GameManager::getMode(int option) {
     return this->utils.readInt("Enter your choice: ", 0, 2);
 }
 
+/**
+ * @brief Loads a board from a file and starts the game loop.
+ * @param filename The name of the file to load.
+ */
 void GameManager::fromFileMode(std::string& filename) {
     auto [width, length] = Utils::getFileDimensions(filename);
     Board board(width, length);
@@ -97,6 +101,9 @@ void GameManager::manualMode() {
     }
 }
 
+/**
+ * @brief Handles terminal mode logic for manual configuration.
+ */
 void GameManager::handleTerminalMode() {
     int mOptions = getMode(MenuOption::DefaultModeOption);
     if (mOptions == 2) {
@@ -110,10 +117,17 @@ void GameManager::handleTerminalMode() {
     }
 }
 
+/**
+ * @brief Handles graphic mode logic for manual configuration.
+ */
 void GameManager::handleGraphicMode() {
     // Add logic for graphic mode
 }
 
+/**
+ * @brief Handles file selection for custom patterns.
+ * @return The selected filename or empty string if cancelled.
+ */
 std::string GameManager::handleFileSelection() {
     std::string filename;
     while (true) {

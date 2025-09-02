@@ -32,6 +32,16 @@ std::pair<int, int> Utils::getFileDimensions(const std::string& filename) {
     return {maxWidth, height};
 }
 
+/**
+ * @brief Reads an integer from user input within a specified range.
+ * 
+ * Prompts the user until a valid integer within the range [min, max] is entered.
+ * 
+ * @param prompt The prompt to display.
+ * @param min The minimum acceptable value.
+ * @param max The maximum acceptable value.
+ * @return The integer entered by the user.
+ */
 int Utils::readInt(const std::string& prompt, int min, int max) {
     int value;
 
