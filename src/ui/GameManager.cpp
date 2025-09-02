@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include <fstream>
 
 #include "core/GameLoop.hpp"
 #include "utils/Utils.hpp"
@@ -53,12 +54,7 @@ void GameManager::choosePattern() {
         return;
     }
     std::string filename = patternFiles[patternChoice - 1];
-    auto [width, length] = Utils::getFileDimensions(filename);
-    Board board(width, length);
-    board.fillFromFile(filename);
-    Display display;
-    display.render(board);
-    launchLoop(board);
+    fromFileMode(filename);
 }
 
 /**
@@ -69,7 +65,7 @@ void GameManager::choosePattern() {
 int GameManager::getMode(int option) {
     const char* menuMessages[] = {
         "1. Manual Mode\n2. Random Mode\n0. Exit\n",
-        "1. Default option\n2. Custom option\n0. Exit\n",
+        "1. Terminal Mode\n2. Graphic Mode\n0. Exit\n",
         "Default mode selected.\nHow do you want to select the alive cells?\n1. Manually\n2. Choose a predefined pattern\n0. Exit\n"
     };
     if (option >= 0 && option <= 2) {
@@ -80,21 +76,62 @@ int GameManager::getMode(int option) {
     return this->utils.readInt("Enter your choice: ", 0, 2);
 }
 
+void GameManager::fromFileMode(std::string& filename) {
+    auto [width, length] = Utils::getFileDimensions(filename);
+    Board board(width, length);
+    board.fillFromFile(filename);
+    Display display;
+    display.render(board);
+    launchLoop(board);
+}
+
 /**
  * @brief Handles manual mode selection and logic.
  */
 void GameManager::manualMode() {
-    int manualMode = getMode(MenuOption::ManualOption);
-    if (manualMode == ManualOptions::DefaultOption) {
-        int mOptions = getMode(MenuOption::DefaultModeOption);
-        if (mOptions == 2) {
-            std::cout << "You chose to select a predefined pattern.\n";
-            choosePattern();
-        }
-        // Add logic for manual cell selection if needed
-    } else if (manualMode == ManualOptions::CustomOption) {
-        // Add logic for custom mode
+    int displayMode = getMode(MenuOption::ManualOption);
+    if (displayMode == ManualOptions::TerminalMode) {
+        handleTerminalMode();
+    } else if (displayMode == ManualOptions::GraphicMode) {
+        handleGraphicMode();
     }
+}
+
+void GameManager::handleTerminalMode() {
+    int mOptions = getMode(MenuOption::DefaultModeOption);
+    if (mOptions == 2) {
+        std::cout << "You chose to select a predefined pattern.\n";
+        choosePattern();
+        return;
+    }
+    std::string filename = handleFileSelection();
+    if (!filename.empty()) {
+        fromFileMode(filename);
+    }
+}
+
+void GameManager::handleGraphicMode() {
+    // Add logic for graphic mode
+}
+
+std::string GameManager::handleFileSelection() {
+    std::string filename;
+    while (true) {
+        std::cout << "Enter the filename for your pattern (or 'q' to exit): ";
+        std::getline(std::cin >> std::ws, filename);
+        if (filename == "q") {
+            std::cout << "Exiting file selection.\n";
+            return "";
+        }
+        std::ifstream file(filename);
+        if (file.good()) {
+            file.close();
+            break;
+        } else {
+            std::cout << "File does not exist. Please try again.\n";
+        }
+    }
+    return filename;
 }
 
 /**

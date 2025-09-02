@@ -41,11 +41,15 @@ class GameManager {
          */
         int getMode(int option);
 
+        void fromFileMode(std::string& filename);
+
         /**
          * @brief Handles manual mode selection and logic.
          */
         void manualMode();
-
+        void handleTerminalMode();
+        void handleGraphicMode();
+        std::string handleFileSelection();
         /**
          * @brief Handles random mode selection and launches the game loop with a random board.
          */

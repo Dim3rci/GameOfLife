@@ -37,8 +37,8 @@ enum Mode {
  * @brief Represents the manual configuration options.
  */
 enum ManualOptions {
-    DefaultOption = 1,
-    CustomOption = 2
+    TerminalMode = 1,
+    GraphicMode = 2
 };
 
 /**
